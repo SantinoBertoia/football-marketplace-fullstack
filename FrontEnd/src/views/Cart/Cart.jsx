@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Cart.css';
 import FifaPlayerCard from '../../components/PlayerCard/PlayerCard';
+import { apiUrl } from '../../config/api';
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const Cart = () => {
   const [error, setError] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
   const [cartId, setCartId] = useState(null);
-  const [purchasing, setPurchasing] = useState(false);
+  const [purchasing] = useState(false);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
 
@@ -45,7 +46,7 @@ const Cart = () => {
   // Función para obtener información del usuario por username
   const getUserByUsername = async (username, token) => {
     try {
-      const response = await fetch('http://localhost:8080/users', {
+      const response = await fetch(apiUrl('/users'), {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -69,7 +70,7 @@ const Cart = () => {
   // Función para obtener o crear el carrito activo del usuario
   const getActiveCart = async (userId, token) => {
     try {
-      const response = await fetch(`http://localhost:8080/shopping-carts/user/${userId}/active`, {
+      const response = await fetch(apiUrl(`/shopping-carts/user/${userId}/active`), {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -93,7 +94,7 @@ const Cart = () => {
   // Función para crear un nuevo carrito
   const createNewCart = async (userId, token) => {
     try {
-      const response = await fetch('http://localhost:8080/shopping-carts', {
+      const response = await fetch(apiUrl('/shopping-carts'), {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -118,7 +119,7 @@ const Cart = () => {
   // Función para obtener los items del carrito
   const getCartItems = async (cartId, token) => {
     try {
-      const response = await fetch(`http://localhost:8080/cart-items/cart/${cartId}`, {
+      const response = await fetch(apiUrl(`/cart-items/cart/${cartId}`), {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -141,7 +142,7 @@ const Cart = () => {
   // Función para obtener detalles de los jugadores
   const getPlayerDetails = async (playerId, token) => {
     try {
-      const response = await fetch(`http://localhost:8080/players/${playerId}`, {
+      const response = await fetch(apiUrl(`/players/${playerId}`), {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -168,7 +169,7 @@ const Cart = () => {
       const playerToRemove = cartItems.find(item => item.id === playerId);
       const playerName = playerToRemove ? playerToRemove.name : 'Player';
 
-      const response = await fetch(`http://localhost:8080/cart-items/remove-from-cart?cartId=${cartId}&playerId=${playerId}`, {
+      const response = await fetch(apiUrl(`/cart-items/remove-from-cart?cartId=${cartId}&playerId=${playerId}`), {
         method: 'DELETE',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -232,7 +233,7 @@ const Cart = () => {
 
       // Eliminar cada item del carrito usando Promise.all para mejor rendimiento
       const deletePromises = cartItems.map(player =>
-        fetch(`http://localhost:8080/cart-items/remove-from-cart?cartId=${cartId}&playerId=${player.id}`, {
+        fetch(apiUrl(`/cart-items/remove-from-cart?cartId=${cartId}&playerId=${player.id}`), {
           method: 'DELETE',
           headers: {
             'Authorization': `Bearer ${token}`,

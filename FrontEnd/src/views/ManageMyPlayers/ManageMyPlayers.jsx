@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getPlayerImageUrl, handleImageError } from '../../utils/imageUtils';
 import './ManageMyPlayers.css';
+import { apiUrl } from '../../config/api';
 
 const ManageMyPlayers = () => {
     const [players, setPlayers] = useState([]);
@@ -34,7 +35,7 @@ const ManageMyPlayers = () => {
 
     const getUserByUsername = async (username, token) => {
         try {
-            const response = await fetch('http://localhost:8080/users', {
+            const response = await fetch(apiUrl('/users'), {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -57,7 +58,7 @@ const ManageMyPlayers = () => {
 
     const fetchUserPlayers = async (ownerId, token) => {
         try {
-            const response = await fetch(`http://localhost:8080/players/owner/${ownerId}`, {
+            const response = await fetch(apiUrl(`/players/owner/${ownerId}`), {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
@@ -118,7 +119,7 @@ const ManageMyPlayers = () => {
             const token = localStorage.getItem('token');
             const newSaleStatus = !currentSaleStatus;
 
-            const response = await fetch(`http://localhost:8080/players/${playerId}/forsale/${newSaleStatus}`, {
+            const response = await fetch(apiUrl(`/players/${playerId}/forsale/${newSaleStatus}`), {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -159,7 +160,7 @@ const ManageMyPlayers = () => {
             }
 
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:8080/players/${playerId}/price/${price}`, {
+            const response = await fetch(apiUrl(`/players/${playerId}/price/${price}`), {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -186,7 +187,7 @@ const ManageMyPlayers = () => {
     const updatePlayer = async (playerId, playerData) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`http://localhost:8080/players/${playerId}`, {
+            const response = await fetch(apiUrl(`/players/${playerId}`), {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -478,7 +479,7 @@ const AddPlayerModal = ({ userInfo, onClose, onPlayerAdded }) => {
                 formDataToSend.append('image', formData.image);
             }
 
-            const response = await fetch('http://localhost:8080/players', {
+            const response = await fetch(apiUrl('/players'), {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,

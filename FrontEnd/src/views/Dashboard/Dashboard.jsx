@@ -3,6 +3,7 @@ import './Dashboard.css';
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { getPlayerImageUrl } from '../../utils/imageUtils';
+import { apiUrl } from '../../config/api';
 
 const Dashboard = () => {
   const [playersDashboard, setPlayersDashboard] = useState([]);
@@ -31,7 +32,7 @@ const Dashboard = () => {
   // Función para obtener información del usuario por username
   const getUserByUsername = async (username, token) => {
     try {
-      const response = await fetch('http://localhost:8080/users', {
+      const response = await fetch(apiUrl('/users'), {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -43,7 +44,6 @@ const Dashboard = () => {
       const users = await response.json();
       const user = users.find(u => u.username && u.username.trim().toLowerCase() === username.trim().toLowerCase());
       if (!user) {
-        console.error('User not found. Username buscado:', username, 'Usernames en base:', users.map(u => u.username));
         throw new Error('User not found (username: ' + username + ')');
       }
       return user;
@@ -56,7 +56,7 @@ const Dashboard = () => {
   // Función para obtener los jugadores del usuario
   const fetchUserPlayers = async (ownerId, token) => {
     try {
-      const response = await fetch(`http://localhost:8080/players/owner/${ownerId}`, {
+      const response = await fetch(apiUrl(`/players/owner/${ownerId}`), {
         headers: {
           'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
@@ -64,21 +64,18 @@ const Dashboard = () => {
       });
       if (!response.ok) {
         if (response.status === 404) {
-          console.log('User has no players yet');
           return [];
         }
         throw new Error(`Error fetching players: ${response.status}`);
       }
       const players = await response.json();
       if (!players || !Array.isArray(players)) {
-        console.log('No players found or invalid response format');
         return [];
       }
       return players;
     } catch (error) {
       console.error('Error fetching user players:', error);
       if (error.message && error.message.includes('no tiene jugadores')) {
-        console.log('User has no associated players');
         return [];
       }
       throw error;
@@ -124,7 +121,6 @@ const Dashboard = () => {
           ownerId: player.ownerId || (player.owner && player.owner.id) || null
         }));
         setPlayersDashboard(transformedPlayers);
-        console.log(`Loaded ${transformedPlayers.length} players for userId ${userInfo.id}`);
       } catch (error) {
         console.error('Error loading user players:', error);
         setError(error.message || 'Error loading your players. Please try again.');

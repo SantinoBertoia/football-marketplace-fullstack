@@ -1,6 +1,5 @@
 // IMPORTS
 import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import Header from './components/Header/Header.jsx';
 import Footer from './components/Footer/Footer.jsx';
 import HeaderHome from './components/Header/HeaderHome.jsx';

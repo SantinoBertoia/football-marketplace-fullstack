@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getPlayerImageUrl, handleImageError } from '../../utils/imageUtils';
-import './playerCard.css';
+import './PlayerCard.css';
 
 const FifaPlayerCard = ({ player, compact = false }) => {
   const {
@@ -12,7 +12,6 @@ const FifaPlayerCard = ({ player, compact = false }) => {
     characteristics,
     price,
     isForSale,
-    image,
     id,
     owner
   } = player || {};

@@ -1,12 +1,21 @@
-# React + Vite
+# ScoutMarket Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React/Vite frontend for the ScoutMarket football player marketplace.
 
-Currently, two official plugins are available:
+See the root `README.md` for the full project overview, backend setup, environment variables, and demo-mode notes.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Local Setup
 
-## Expanding the ESLint configuration
+```powershell
+npm ci
+Copy-Item .env.example .env
+npm run dev
+```
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Build
+
+```powershell
+npm run build
+```
+
+For a static public demo without a deployed backend, set `VITE_USE_MOCK_API=true`. Mock mode only covers the public home page and public player listing; authenticated flows still require the backend.

@@ -2,7 +2,7 @@
  * Utilidades para manejar las imágenes de jugadores
  */
 
-const API_BASE_URL = 'http://localhost:8080';
+import { API_BASE_URL } from '../config/api';
 
 /**
  * Genera la URL correcta para la imagen de un jugador

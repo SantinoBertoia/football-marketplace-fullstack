@@ -13,8 +13,7 @@ const Header = () => {
     };
 
     const handleSearch = () => {
-        // Aquí puedes implementar la lógica de búsqueda
-        console.log('Searching for:', searchTerm);
+        setSearchTerm(searchTerm.trim());
     };
 
     const handleKeyPress = (e) => {

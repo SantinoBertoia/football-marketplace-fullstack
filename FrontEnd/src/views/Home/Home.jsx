@@ -3,6 +3,7 @@ import PlayerCard from '../../components/PlayerCard/PlayerCard.jsx';
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom'; // Importar useNavigate
 import { getPlayerImageUrl } from '../../utils/imageUtils';
+import { fetchPublicPlayers } from '../../services/playerService';
 
 const Home = () => {
   const [players, setPlayers] = useState([]);
@@ -18,15 +19,7 @@ const Home = () => {
     const fetchPlayers = async () => {
       try {
         setLoading(true);
-        const URL = 'http://localhost:8080/players/public';
-        const response = await fetch(URL);
-
-        if (!response.ok) {
-          throw new Error(`Error: ${response.status}`);
-        }
-
-        const data = await response.json();
-        console.log('Datos recibidos del backend:', data); // Para debug
+        const data = await fetchPublicPlayers();
 
         // Mapear los datos del backend al formato que espera PlayerCard
         const mappedPlayers = data.map(player => ({
@@ -44,7 +37,6 @@ const Home = () => {
           image: getPlayerImageUrl(player)
         }));
 
-        console.log('Jugadores mapeados:', mappedPlayers); // Para debug
         setPlayers(mappedPlayers);
         setFilteredPlayers(mappedPlayers);
         setError(null);
@@ -61,9 +53,6 @@ const Home = () => {
 
   // Función para realizar la búsqueda
   const performSearch = useCallback((searchValue) => {
-    console.log('Realizando búsqueda con:', searchValue); // Para debug
-    console.log('Total de jugadores:', players.length); // Para debug
-
     if (!searchValue || searchValue.trim() === '') {
       setFilteredPlayers(players);
       setIsSearching(false);
@@ -82,7 +71,6 @@ const Home = () => {
       return nameMatch || positionMatch || characteristicsMatch;
     });
 
-    console.log('Resultados filtrados:', filtered); // Para debug
     setFilteredPlayers(filtered);
     setIsSearching(true);
   }, [players]);
@@ -98,7 +86,6 @@ const Home = () => {
 
   // Función para el botón de búsqueda
   const handleSearchSubmit = () => {
-    console.log('Botón de búsqueda presionado con término:', searchTerm);
     performSearch(searchTerm);
   };
 
@@ -112,7 +99,6 @@ const Home = () => {
 
   // Función para limpiar la búsqueda
   const clearSearch = () => {
-    console.log('Limpiando búsqueda');
     setSearchTerm('');
     setIsSearching(false);
     setFilteredPlayers(players);
@@ -161,12 +147,6 @@ const Home = () => {
                 )}
               </div>
 
-              {/* Información de debug - puedes remover esto en producción */}
-              {process.env.NODE_ENV === 'development' && (
-                <div style={{ fontSize: '12px', marginTop: '10px', color: '#666' }}>
-                  Debug: {players.length} jugadores cargados, {filteredPlayers.length} mostrados
-                </div>
-              )}
             </div>
             <div className="hero-image-box">
               <img src="/images/FondoHome.png" alt="Hero players" />

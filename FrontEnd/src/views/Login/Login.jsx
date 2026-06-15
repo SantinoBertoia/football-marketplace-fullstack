@@ -1,6 +1,7 @@
 import './Login.css';
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { apiUrl } from '../../config/api';
 
 const Login = () => {
     const [isLogin, setIsLogin] = useState(true);
@@ -96,7 +97,7 @@ const Login = () => {
 
     const handleLogin = async (loginData) => {
         try {
-            const response = await fetch('http://localhost:8080/api/v1/auth/authenticate', {
+            const response = await fetch(apiUrl('/api/v1/auth/authenticate'), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -109,8 +110,6 @@ const Login = () => {
             if (!response.ok) {
                 throw new Error(data.message || `Error: ${response.status}`);
             }
-
-            console.log('Login successful:', data);
 
             // Guardar token (el backend devuelve accessToken)
             if (data.accessToken) {
@@ -135,7 +134,7 @@ const Login = () => {
 
     const handleRegister = async (registerData) => {
         try {
-            const response = await fetch('http://localhost:8080/api/v1/auth/register', {
+            const response = await fetch(apiUrl('/api/v1/auth/register'), {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -148,8 +147,6 @@ const Login = () => {
             if (!response.ok) {
                 throw new Error(data.message || `Error: ${response.status}`);
             }
-
-            console.log('Registration successful:', data);
 
             setSuccess('Registration successful! You can now log in.');
 
@@ -340,12 +337,6 @@ const Login = () => {
                         <a href="#" className="forgot-password">Forgot your password?</a>
                     )}
 
-                    {/* Información de debug - remover en producción */}
-                    {process.env.NODE_ENV === 'development' && (
-                        <div style={{ fontSize: '12px', marginTop: '10px', color: '#666' }}>
-                            Debug: {isLogin ? 'Login' : 'Register'} mode, Loading: {loading.toString()}
-                        </div>
-                    )}
                 </div>
             </div>
         </div>

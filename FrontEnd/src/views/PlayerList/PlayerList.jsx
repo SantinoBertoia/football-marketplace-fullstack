@@ -3,6 +3,7 @@ import FifaPlayerCard from '../../components/PlayerCard/PlayerCard.jsx';
 import PositionFilter from '../../components/PositionFilter/PositionFilter.jsx';
 import { useState, useEffect } from 'react';
 import { getPlayerImageUrl } from '../../utils/imageUtils';
+import { fetchPublicPlayers } from '../../services/playerService';
 
 const PlayerList = () => {
     const [players, setPlayers] = useState([]);
@@ -18,15 +19,7 @@ const PlayerList = () => {
         const fetchPlayers = async () => {
             try {
                 setLoading(true);
-                const URL = 'http://localhost:8080/players/public';
-                const response = await fetch(URL);
-
-                if (!response.ok) {
-                    throw new Error(`Error: ${response.status}`);
-                }
-
-                const data = await response.json();
-                console.log('Datos recibidos del backend:', data);
+                const data = await fetchPublicPlayers();
 
                 const mappedPlayers = data.map(player => ({
                     id: player.id ?? '',

@@ -1,6 +1,7 @@
 import './PlayerDetail.css';
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { apiUrl } from '../../config/api';
 
 const PlayerDetail = () => {
   const { id } = useParams();
@@ -23,7 +24,7 @@ const PlayerDetail = () => {
       if (!username) return null;
 
       // Llama a la API de users para obtener el id real
-      const usersResp = await fetch('http://localhost:8080/users', {
+      const usersResp = await fetch(apiUrl('/users'), {
         headers: { 'Authorization': `Bearer ${token}` },
       });
       if (!usersResp.ok) return null;
@@ -39,7 +40,7 @@ const PlayerDetail = () => {
   const getOrCreateActiveCart = async (userId, token) => {
     try {
       // Primero intentar obtener el carrito activo
-      const activeCartResponse = await fetch(`http://localhost:8080/shopping-carts/user/${userId}/active`, {
+      const activeCartResponse = await fetch(apiUrl(`/shopping-carts/user/${userId}/active`), {
         headers: { 'Authorization': `Bearer ${token}` },
       });
 
@@ -49,7 +50,7 @@ const PlayerDetail = () => {
 
       // Si no hay carrito activo (404), crear uno nuevo
       if (activeCartResponse.status === 404) {
-        const createCartResponse = await fetch('http://localhost:8080/shopping-carts', {
+        const createCartResponse = await fetch(apiUrl('/shopping-carts'), {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -82,7 +83,7 @@ const PlayerDetail = () => {
       const cart = await getOrCreateActiveCart(userId, token);
       if (!cart) return false;
 
-      const cartItemsResponse = await fetch(`http://localhost:8080/cart-items/cart/${cart.id}`, {
+      const cartItemsResponse = await fetch(apiUrl(`/cart-items/cart/${cart.id}`), {
         headers: { 'Authorization': `Bearer ${token}` },
       });
 
@@ -125,7 +126,7 @@ const PlayerDetail = () => {
       }
 
       // Agregar item al carrito usando el ID real del carrito
-      const response = await fetch('http://localhost:8080/cart-items/add-to-cart', {
+      const response = await fetch(apiUrl('/cart-items/add-to-cart'), {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -161,7 +162,7 @@ const PlayerDetail = () => {
         setError(null);
 
         const token = localStorage.getItem('token');
-        const response = await fetch(`http://localhost:8080/players/${id}`, {
+        const response = await fetch(apiUrl(`/players/${id}`), {
           headers: token ? { 'Authorization': `Bearer ${token}` } : {},
         });
 

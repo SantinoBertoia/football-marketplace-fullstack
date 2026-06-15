@@ -19,7 +19,6 @@ const DashboardPlayerCard = ({
     characteristics,
     price,
     isForSale,
-    image,
     id
   } = player || {};
 

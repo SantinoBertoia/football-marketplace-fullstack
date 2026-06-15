@@ -1,24 +1,46 @@
-# Compiled class file
+# Java / Spring Boot
+target/
+FootballMarketplace/target/
 *.class
-
-# Log file
-*.log
-
-# BlueJ files
-*.ctxt
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
 *.jar
 *.war
 *.nar
 *.ear
+
+# Node / Vite
+node_modules/
+FrontEnd/node_modules/
+dist/
+FrontEnd/dist/
+coverage/
+FrontEnd/coverage/
+
+# Environment files
+.env
+.env.*
+!.env.example
+application-local.properties
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# IDE / editor
+.vscode/
+.idea/
+*.iml
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Archives and crash logs
 *.zip
 *.tar.gz
 *.rar
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 replay_pid*

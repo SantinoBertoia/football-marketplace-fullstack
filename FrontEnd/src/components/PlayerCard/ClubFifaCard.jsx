@@ -9,8 +9,7 @@ const ClubFifaCard = ({ club }) => {
     yearFounded,
     stadium,
     city,
-    email,
-    id
+    email
   } = club;
 
   // Imagen por defecto para el club

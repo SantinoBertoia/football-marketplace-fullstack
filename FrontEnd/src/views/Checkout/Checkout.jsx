@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './Checkout.css';
+import { apiUrl } from '../../config/api';
 
 const Checkout = () => {
   const navigate = useNavigate();
@@ -32,21 +33,6 @@ const Checkout = () => {
       navigate('/cart');
     }
   }, [location.state, navigate]);
-
-  // Función para decodificar el JWT
-  const decodeToken = (token) => {
-    try {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function (c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join(''));
-      return JSON.parse(jsonPayload);
-    } catch (error) {
-      console.error('Error decoding token:', error);
-      return null;
-    }
-  };
 
   // Calcular totales
   const subtotal = cartItems.reduce((acc, player) => acc + (player.price || 0), 0);
@@ -167,7 +153,7 @@ const Checkout = () => {
 
       // Crear transacciones para cada jugador
       const transactionPromises = cartItems.map(async (player) => {
-        const response = await fetch(`http://localhost:8080/transactions/create-transfer`, {
+        const response = await fetch(apiUrl('/transactions/create-transfer'), {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -192,7 +178,7 @@ const Checkout = () => {
       await Promise.all(transactionPromises);
 
       // Limpiar carrito después de la compra exitosa
-      const cartResponse = await fetch(`http://localhost:8080/shopping-carts/user/${userInfo.id}/active`, {
+      const cartResponse = await fetch(apiUrl(`/shopping-carts/user/${userInfo.id}/active`), {
         headers: { 'Authorization': `Bearer ${token}` }
       });
 
@@ -201,7 +187,7 @@ const Checkout = () => {
         
         // Eliminar todos los items del carrito
         const clearPromises = cartItems.map(player => 
-          fetch(`http://localhost:8080/cart-items/remove-from-cart?cartId=${cart.id}&playerId=${player.id}`, {
+          fetch(apiUrl(`/cart-items/remove-from-cart?cartId=${cart.id}&playerId=${player.id}`), {
             method: 'DELETE',
             headers: { 'Authorization': `Bearer ${token}` }
           })

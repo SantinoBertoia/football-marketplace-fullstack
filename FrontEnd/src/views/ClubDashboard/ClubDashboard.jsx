@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import PlayerCard from '../../components/PlayerCard/PlayerCard';
 import './ClubDashboard.css';
+import { apiUrl } from '../../config/api';
 
 const ClubDashboard = () => {
   const { clubId } = useParams();
@@ -43,7 +44,7 @@ const ClubDashboard = () => {
         const token = localStorage.getItem('token');
 
         // Obtener información del club (usuario)
-        const clubResponse = await fetch(`http://localhost:8080/users/${clubId}`, {
+        const clubResponse = await fetch(apiUrl(`/users/${clubId}`), {
           headers: token ? { 'Authorization': `Bearer ${token}` } : {},
         });
 
@@ -59,7 +60,7 @@ const ClubDashboard = () => {
         setIsOwnClub(loggedUserId && loggedUserId.toString() === clubId);
 
         // Obtener jugadores del club
-        const playersResponse = await fetch(`http://localhost:8080/players/owner/${clubId}`, {
+        const playersResponse = await fetch(apiUrl(`/players/owner/${clubId}`), {
           headers: token ? { 'Authorization': `Bearer ${token}` } : {},
         });
 

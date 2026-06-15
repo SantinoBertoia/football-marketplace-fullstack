@@ -156,7 +156,7 @@ img {
     --font-size-xl: 1.25rem;
   }
 .home-hero-bg {
-  background-image: url("/images/d7eee6a7-8e3a-4ebb-8cef-248ebc3abae5.png");
+  background-image: url("/images/FondoHome.png");
   background-size: cover;
   background-position: center;
   padding: var(--spacing-xl) 0;
