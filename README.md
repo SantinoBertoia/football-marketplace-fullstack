@@ -166,13 +166,3 @@ Screenshots can be added here:
 ## Current Scope
 
 This project is suitable for demonstrating full-stack structure, REST integration, JWT-based authentication, CRUD-style domain flows, and a working React client. Payment handling is simulated, deployment is not fully automated, and security/configuration choices are intended for local development and portfolio review.
-
-## Future Improvements
-
-- Add stronger backend test coverage for services, controllers, and security flows.
-- Add frontend tests for key user journeys.
-- Improve form validation and error handling consistency.
-- Add database migrations with Flyway or Liquibase.
-- Add role-specific route guards in the frontend.
-- Add production deployment configuration for frontend and backend.
-- Replace simulated checkout with a dedicated payment abstraction or remove payment fields from the academic demo flow.
