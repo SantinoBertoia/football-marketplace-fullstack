@@ -152,17 +152,6 @@ VITE_USE_MOCK_API=true
 
 This enables mock data for the public home page and public player marketplace listing. Authenticated flows such as login, dashboard, cart, checkout, and player management still require the Spring Boot backend.
 
-## Screenshots
-
-Screenshots can be added here:
-
-- Home page
-- Player listing
-- Player detail
-- Club dashboard
-- Cart and checkout
-- Manage players
-
 ## Current Scope
 
 This project is suitable for demonstrating full-stack structure, REST integration, JWT-based authentication, CRUD-style domain flows, and a working React client. Payment handling is simulated, deployment is not fully automated, and security/configuration choices are intended for local development and portfolio review.
